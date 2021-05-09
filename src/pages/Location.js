@@ -2,7 +2,9 @@ import React, {useState,useEffect} from "react";
 import {SafeAreaView,View,Text,FlatList} from "react-native";
 import axios from "axios";
 
-export const Location = () =>{
+import {LocationCard} from "../components";
+
+export const Location = (props) =>{
     const [data,setData] = useState([]);
 
     const fetchData = async() =>{
@@ -13,8 +15,12 @@ export const Location = () =>{
     useEffect(()=>{
         fetchData()
     },[])
-    const renderData = ({item}) => <Text>{item.lokasyon}</Text>
+
+
+    const renderData = ({item}) => <LocationCard item={item} myPress={() => selectItem(item)}/>
         
+    const selectItem = (item) => props.navigation.navigate("LocationDetail",{data:item})
+    
     return(
         <SafeAreaView>
             <View>
@@ -22,6 +28,7 @@ export const Location = () =>{
                     keyExtractor={(_,index) => index.toString()}
                     data={data}
                     renderItem={renderData}
+                    ItemSeparatorComponent={()=><View style={{borderBottomWidth:1}}/>}
                 />
             </View>
         </SafeAreaView>
