@@ -1,15 +1,18 @@
 import React from "react";
-import {SafeAreaView,View,Text,Image,ScrollView,Platform,PermissionsAndroid} from "react-native";
+import {SafeAreaView,View,Text,ImageBackground,ScrollView,Platform,PermissionsAndroid} from "react-native";
 import MapView,{Marker} from 'react-native-maps';
 import { showLocation } from 'react-native-map-link';
 import Geolocation from '@react-native-community/geolocation';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import {useDispatch} from "react-redux";
 
 import {adData} from "../helper/adData";
 import {LocationDetailStyle} from "./styles";
 
 export const LocationDetail = (props) =>{
     const {data} = props.route.params
-
+    const dispatch = useDispatch()
     let count = Math.floor(Math.random() * 3)
 
     const markerPress = () =>{
@@ -60,10 +63,18 @@ export const LocationDetail = (props) =>{
     return(
         <SafeAreaView>
             <ScrollView>
-                <Image
+                <ImageBackground
                     source={adData[count].path}
                     style={LocationDetailStyle.img}
-                />
+                >
+                  <Icon 
+                    name="map-marker-plus" 
+                    size={25} 
+                    color="red" 
+                    style={LocationDetailStyle.icon}
+                    onPress={()=> dispatch({type:"EKLE",payload:{selectCity:data}})}
+                  />
+                </ImageBackground>
                 <Text style={LocationDetailStyle.title}>{data.title}</Text>
                 <Text style={LocationDetailStyle.desc}>{`AFAD tarafından yapılan açıklamaya göre ${data.lokasyon}'da 3.8 büyüklüğünde deprem meydana geldi.`}</Text>
                 <MapView

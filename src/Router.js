@@ -6,10 +6,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Provider} from "react-redux";
+import {createStore} from "redux";
+
 import {Location,LocationDetail,Warning} from "./pages";
+import { reducer, initialState } from "./context";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+const store = createStore(reducer,initialState);
+
 
 const myLocation = () =>{
   return(
@@ -19,9 +25,18 @@ const myLocation = () =>{
       </Stack.Navigator>
   )
 }
+const myWarning = () =>{
+  return(
+      <Stack.Navigator>
+        <Stack.Screen name="Warning" component={Warning} />
+        <Stack.Screen name="LocationDetail" component={LocationDetail} />
+      </Stack.Navigator>
+  )
+}
 
 export const Router= ()=> {
   return (
+    <Provider store={store}>
     <NavigationContainer>
       <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -42,8 +57,9 @@ export const Router= ()=> {
       }}
       >
         <Tab.Screen name="Location" component={myLocation} />
-        <Tab.Screen name="Warning" component={Warning} />
+        <Tab.Screen name="Warning" component={myWarning} />
       </Tab.Navigator>
     </NavigationContainer>
+    </Provider>
   );
 }
