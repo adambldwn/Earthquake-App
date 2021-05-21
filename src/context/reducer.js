@@ -1,10 +1,7 @@
 export function reducer(state,action){
     switch(action.type){
         case "EKLE":
-            let array = [...state.warningCity]
-            array.push(action.payload.selectCity)
-            state.warningCity = array;
-            return {...state}
+            return {...state,warningCity : [...state.warningCity, action.payload.selectCity]}
         default:
             return state;
     }

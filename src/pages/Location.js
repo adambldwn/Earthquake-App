@@ -15,11 +15,9 @@ export const Location = (props) =>{
     useEffect(()=>{
         fetchData()
     },[])
+console.log("LOCATION")
 
-
-    const renderData = ({item}) => <LocationCard item={item} myPress={() => selectItem(item)}/>
-        
-    const selectItem = (item) => props.navigation.navigate("LocationDetail",{data:item})
+    const renderData = ({item}) => <LocationCard item={item} myPress={()=> props.navigation.navigate("LocationDetail",{data:item})}/>
     
     return(
         <SafeAreaView>
